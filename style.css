@@ -1,0 +1,1410 @@
+/* ========================================================
+   LIBER ANIMUS — style.css
+   Google Gemini Aesthetic × Google Gravity Interactive Physics
+   A human-crafted, therapeutic, and luminous design system.
+   ======================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ========================================================
+   1. DESIGN TOKENS & GEMINI PALETTE
+   ======================================================== */
+:root {
+  /* Cosmic Dark Backgrounds */
+  --bg: #07090e;
+  --bg2: #0d121f;
+  --bg3: #12192c;
+  
+  /* Frosted Glass Surfaces */
+  --surface: rgba(16, 23, 40, 0.65);
+  --surface2: rgba(24, 34, 58, 0.78);
+  --surface-hover: rgba(30, 43, 72, 0.88);
+  --surface-card: rgba(14, 20, 36, 0.62);
+
+  /* Google Gemini Signature Palette */
+  --gemini-blue: #4285f4;
+  --gemini-cyan: #38bdf8;
+  --gemini-purple: #9b72cf;
+  --gemini-violet: #818cf8;
+  --gemini-magenta: #ec4899;
+  --gemini-coral: #fb7185;
+  --gemini-amber: #fbbf24;
+  --gemini-emerald: #34d399;
+
+  /* Semantic Variables */
+  --accent: #60a5fa;
+  --accent2: #c084fc;
+  --accent3: #38bdf8;
+  --accent-pink: #f472b6;
+  --gold: #fbbf24;
+  --danger: #fb7185;
+  --success: #34d399;
+
+  /* Typography Colors */
+  --text: #f8fafc;
+  --text-soft: #cbd5e1;
+  --text-muted: #8391a7;
+  --text-dim: #55627a;
+
+  /* Luminous Borders & Radii */
+  --border: rgba(99, 133, 255, 0.14);
+  --border-strong: rgba(147, 197, 253, 0.32);
+  --border2: rgba(155, 114, 207, 0.22);
+  --glow-gemini: 0 0 35px rgba(66, 133, 244, 0.22), 0 0 70px rgba(155, 114, 207, 0.16);
+
+  --radius-sm: 10px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --radius-full: 9999px;
+
+  /* Physics Timing Curves */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --float-timing: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+/* ========================================================
+   2. RESET & BASE STYLES
+   ======================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle Film Grain Noise Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* Custom Gemini Selection */
+::selection {
+  background: rgba(155, 114, 207, 0.35);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(96, 165, 250, 0.6);
+}
+
+/* Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 133, 255, 0.2);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(147, 197, 253, 0.45);
+}
+
+/* ========================================================
+   3. BACKGROUND PARTICLES & AMBIENT NEBULAE
+   ======================================================== */
+.gravity-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  animation: driftOrb 24s ease-in-out infinite;
+}
+
+.glow-orb-1 {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(66, 133, 244, 0.15) 0%, rgba(56, 189, 248, 0.05) 50%, transparent 75%);
+  top: -240px;
+  left: -180px;
+}
+
+.glow-orb-2 {
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, rgba(155, 114, 207, 0.16) 0%, rgba(236, 72, 153, 0.06) 50%, transparent 75%);
+  bottom: -150px;
+  right: -150px;
+  animation-delay: -8s;
+}
+
+.glow-orb-3 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(52, 211, 153, 0.05) 50%, transparent 75%);
+  top: 45%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  animation-delay: -16s;
+}
+
+@keyframes driftOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -40px) scale(1.08); }
+  66% { transform: translate(-40px, 45px) scale(0.92); }
+}
+
+/* ========================================================
+   4. NAVIGATION BAR (GEMINI FROSTED GLASS)
+   ======================================================== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 16px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(7, 9, 14, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s var(--smooth);
+}
+
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+  transition: transform 0.25s var(--spring);
+}
+
+.nav-logo:hover {
+  transform: scale(1.03);
+}
+
+.nav-logo::before {
+  content: '✦';
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--gemini-cyan), var(--gemini-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: geminiSparkle 3s ease-in-out infinite;
+}
+
+.nav-logo span {
+  background: linear-gradient(90deg, #60a5fa 0%, #c084fc 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding: 8px 12px;
+  border-radius: var(--radius-full);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Gravity Toggle Button in Nav */
+.btn-gravity-toggle {
+  background: rgba(155, 114, 207, 0.1);
+  border: 1px solid rgba(155, 114, 207, 0.3);
+  color: var(--accent2);
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s var(--spring);
+}
+
+.btn-gravity-toggle:hover {
+  background: rgba(155, 114, 207, 0.22);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 18px rgba(155, 114, 207, 0.25);
+  border-color: var(--accent2);
+}
+
+.btn-gravity-toggle.active {
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.3), rgba(155, 114, 207, 0.4));
+  border-color: var(--gemini-cyan);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+}
+
+.btn-nav {
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.15), rgba(155, 114, 207, 0.15)) !important;
+  border: 1px solid var(--border-strong) !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  padding: 8px 22px !important;
+  border-radius: var(--radius-full) !important;
+  transition: all 0.3s var(--spring) !important;
+  box-shadow: 0 2px 10px rgba(66, 133, 244, 0.15);
+}
+
+.btn-nav:hover {
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.3), rgba(155, 114, 207, 0.3)) !important;
+  border-color: var(--gemini-cyan) !important;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.3);
+}
+
+/* ========================================================
+   5. BUTTONS & MICRO-INTERACTIONS
+   ======================================================== */
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  background-size: 200% auto;
+  color: #ffffff;
+  border: none;
+  padding: 14px 34px;
+  border-radius: var(--radius-full);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.35s var(--spring);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  background-position: right center;
+  box-shadow: 0 12px 36px rgba(139, 92, 246, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  padding: 14px 32px;
+  border-radius: var(--radius-full);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s var(--spring);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: #ffffff;
+  background: rgba(66, 133, 244, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.15);
+}
+
+.btn-full {
+  width: 100%;
+  text-align: center;
+}
+
+/* ========================================================
+   6. HERO SECTION & GOOGLE GRAVITY CHIPS
+   ======================================================== */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 130px 24px 90px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(66, 133, 244, 0.08);
+  border: 1px solid rgba(66, 133, 244, 0.25);
+  border-radius: var(--radius-full);
+  padding: 7px 20px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--gemini-cyan);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s var(--smooth) forwards;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.12);
+}
+
+.hero-badge::before {
+  content: '✦';
+  font-size: 12px;
+  color: var(--gemini-cyan);
+  animation: geminiSparkle 2.2s infinite;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(62px, 11vw, 130px);
+  font-weight: 300;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+  animation: fadeUp 0.8s var(--smooth) 0.1s forwards;
+  opacity: 0;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.hero h1 em {
+  font-style: italic;
+  display: block;
+  background: linear-gradient(90deg, #60a5fa 0%, #c084fc 30%, #f472b6 60%, #38bdf8 85%, #60a5fa 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: geminiShimmer 7s linear infinite;
+}
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s var(--smooth) 0.2s forwards;
+  opacity: 0;
+}
+
+.hero-desc {
+  max-width: 580px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-soft);
+  margin-bottom: 36px;
+  animation: fadeUp 0.8s var(--smooth) 0.3s forwards;
+  opacity: 0;
+}
+
+/* Floating Zero-G Gravity Chips */
+.gravity-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 720px;
+  margin-bottom: 42px;
+  animation: fadeUp 0.8s var(--smooth) 0.35s forwards;
+  opacity: 0;
+}
+
+.gravity-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(19, 27, 46, 0.7);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  cursor: grab;
+  user-select: none;
+  animation: floatZeroG 6s ease-in-out infinite;
+  transition: transform 0.3s var(--spring), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.gravity-chip:hover {
+  border-color: var(--gemini-cyan);
+  color: #fff;
+}
+
+.chip-icon {
+  font-size: 14px;
+}
+
+.chip-blue { border-color: rgba(66, 133, 244, 0.3); color: #93c5fd; }
+.chip-green { border-color: rgba(52, 211, 153, 0.3); color: #6ee7b7; }
+.chip-purple { border-color: rgba(155, 114, 207, 0.3); color: #c084fc; }
+.chip-cyan { border-color: rgba(56, 189, 248, 0.3); color: #7dd3fc; }
+.chip-amber { border-color: rgba(251, 191, 36, 0.3); color: #fde68a; }
+
+@keyframes floatZeroG {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-7px) rotate(1.2deg); }
+  75% { transform: translateY(6px) rotate(-1.2deg); }
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.8s var(--smooth) 0.45s forwards;
+  opacity: 0;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: fadeUp 1s var(--smooth) 0.9s forwards;
+  opacity: 0;
+}
+
+.scroll-line {
+  width: 2px;
+  height: 44px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, var(--gemini-cyan), var(--gemini-purple), transparent);
+  animation: scrollPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.7); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ========================================================
+   7. SECTIONS & GENERAL LAYOUT
+   ======================================================== */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(99, 133, 255, 0.25), rgba(155, 114, 207, 0.25), transparent);
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 120px 48px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gemini-cyan);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '✦';
+  font-size: 11px;
+  color: var(--gemini-purple);
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  max-width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, var(--gemini-cyan), transparent);
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.section-title em {
+  font-style: italic;
+  background: linear-gradient(90deg, #60a5fa, #c084fc, #f472b6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ========================================================
+   8. STEPS GRID (INTERACTIVE 3D CARDS)
+   ======================================================== */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 60px;
+}
+
+.step {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 44px 34px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  transition: transform 0.4s var(--spring), border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+/* Gemini Specular Glow follows cursor */
+.step::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(66, 133, 244, 0.12), transparent 75%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.step:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 24px rgba(66, 133, 244, 0.15);
+}
+
+.step:hover::before {
+  opacity: 1;
+}
+
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 74px;
+  font-weight: 300;
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.35), rgba(155, 114, 207, 0.15));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.step h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.step p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* ========================================================
+   9. CATEGORIES (GEMINI COLOR THEMES)
+   ======================================================== */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+  margin-top: 60px;
+}
+
+.category-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  backdrop-filter: blur(14px);
+  transition: transform 0.4s var(--spring), border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(155, 114, 207, 0.14), transparent 75%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.category-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.category-card:hover::before {
+  opacity: 1;
+}
+
+.cat-icon {
+  font-size: 38px;
+  margin-bottom: 22px;
+  display: inline-block;
+  transition: transform 0.3s var(--spring);
+}
+
+.category-card:hover .cat-icon {
+  transform: scale(1.15) rotate(4deg);
+}
+
+.cat-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 16px;
+}
+
+.cat-depression .cat-tag {
+  background: rgba(66, 133, 244, 0.12);
+  border: 1px solid rgba(66, 133, 244, 0.3);
+  color: #93c5fd;
+}
+.cat-bully .cat-tag {
+  background: rgba(251, 113, 133, 0.12);
+  border: 1px solid rgba(251, 113, 133, 0.3);
+  color: #fda4af;
+}
+.cat-breakup .cat-tag {
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  color: #d8b4fe;
+}
+.cat-family .cat-tag {
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fde68a;
+}
+
+.category-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.category-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ========================================================
+   10. FEATURES GRID & MINI MOOD CHART
+   ======================================================== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+}
+
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  backdrop-filter: blur(14px);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--spring), border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.12), transparent 75%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card.large {
+  grid-column: span 2;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.12), rgba(155, 114, 207, 0.12));
+  border: 1px solid rgba(147, 197, 253, 0.25);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 16px rgba(66, 133, 244, 0.12);
+}
+
+.card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* Mini Mood Bar Chart */
+.mini-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 70px;
+  margin-top: 28px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.mini-bar {
+  flex: 1;
+  border-radius: 6px 6px 2px 2px;
+  min-height: 12px;
+  transition: transform 0.3s var(--spring), opacity 0.3s ease;
+  position: relative;
+}
+
+.mini-bar:hover {
+  transform: scaleY(1.1);
+  opacity: 1 !important;
+}
+
+/* ========================================================
+   11. CRISIS BANNER & TELEGRAM HUMAN MODE
+   ======================================================== */
+.crisis-banner {
+  background: linear-gradient(135deg, rgba(251, 113, 133, 0.1), rgba(244, 63, 94, 0.04));
+  border: 1px solid rgba(251, 113, 133, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 34px 44px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 60px;
+  box-shadow: 0 8px 30px rgba(244, 63, 94, 0.1);
+}
+
+.crisis-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.crisis-text h4 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+
+.crisis-text p {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.crisis-hotline {
+  margin-left: auto;
+  background: rgba(251, 113, 133, 0.14);
+  border: 1px solid rgba(251, 113, 133, 0.4);
+  color: #fff;
+  padding: 12px 26px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.3s var(--spring);
+}
+
+.crisis-hotline:hover {
+  background: rgba(251, 113, 133, 0.28);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.25);
+}
+
+/* Telegram Human Mode Section */
+.telegram-section {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 64px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: 60px;
+  backdrop-filter: blur(16px);
+  transition: transform 0.4s var(--spring), border-color 0.3s ease;
+  will-change: transform;
+}
+
+.telegram-section::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(66, 133, 244, 0.12) 0%, rgba(155, 114, 207, 0.08) 50%, transparent 75%);
+  pointer-events: none;
+}
+
+.telegram-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+  display: inline-block;
+  animation: floatZeroG 5s ease-in-out infinite;
+}
+
+.telegram-section h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.telegram-section p {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.85;
+  max-width: 520px;
+  margin: 0 auto 36px;
+}
+
+.anon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  color: var(--success);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 28px;
+}
+
+/* ========================================================
+   12. PRICING CARDS
+   ======================================================== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.pricing-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 50px 42px;
+  transition: transform 0.4s var(--spring), border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  will-change: transform;
+}
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(155, 114, 207, 0.15), transparent 75%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pricing-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.pricing-card:hover::before {
+  opacity: 1;
+}
+
+.pricing-card.featured {
+  border-color: rgba(147, 197, 253, 0.4);
+  background: linear-gradient(135deg, rgba(24, 34, 58, 0.8), rgba(16, 23, 40, 0.85));
+  box-shadow: 0 8px 32px rgba(66, 133, 244, 0.15);
+}
+
+.pricing-card.featured::after {
+  content: 'POPULER';
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 10px rgba(139, 92, 246, 0.35);
+}
+
+.pricing-tier {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gemini-cyan);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pricing-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 62px;
+  font-weight: 300;
+  line-height: 1;
+  margin: 18px 0 10px;
+  color: #fff;
+}
+
+.price-currency {
+  font-size: 22px;
+  vertical-align: super;
+  margin-right: 4px;
+  color: var(--text-muted);
+}
+
+.price-period {
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+.price-note {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.price-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.price-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  color: var(--text-soft);
+}
+
+.price-features li::before {
+  content: '✦';
+  font-size: 11px;
+  color: var(--gemini-cyan);
+  flex-shrink: 0;
+}
+
+/* ========================================================
+   13. FOOTER
+   ======================================================== */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 80px 48px 0;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 50px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.footer-logo span {
+  background: linear-gradient(90deg, #60a5fa, #c084fc, #f472b6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--gemini-cyan);
+  transform: translateX(3px);
+}
+
+.footer-bottom {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1240px;
+  margin: 60px auto 0;
+}
+
+.footer-bottom p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* ========================================================
+   14. FORMS & MODALS
+   ======================================================== */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-soft);
+  margin-bottom: 8px;
+  display: block;
+  letter-spacing: 0.04em;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 18px;
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: var(--gemini-cyan);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 9, 14, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--surface2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 48px 40px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(66, 133, 244, 0.15);
+  animation: modalIn 0.35s var(--spring);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(24px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.modal p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+/* ========================================================
+   15. TOAST NOTIFICATIONS
+   ======================================================== */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  background: rgba(19, 27, 46, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 15px 24px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #fff;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.35s var(--spring);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(66, 133, 244, 0.2);
+  max-width: 340px;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast.success {
+  border-color: rgba(52, 211, 153, 0.4);
+  color: #a7f3d0;
+}
+
+.toast.error {
+  border-color: rgba(251, 113, 133, 0.4);
+  color: #fecdd3;
+}
+
+/* ========================================================
+   16. SCROLL REVEAL & CORE KEYFRAME ANIMATIONS
+   ======================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.8s var(--smooth), transform 0.8s var(--smooth);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes geminiShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes geminiSparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.25) rotate(180deg); opacity: 1; filter: drop-shadow(0 0 6px var(--gemini-cyan)); }
+}
+
+/* Google Gravity Active Mode Overrides */
+body.gravity-mode-active .step,
+body.gravity-mode-active .category-card,
+body.gravity-mode-active .card,
+body.gravity-mode-active .pricing-card {
+  animation: floatZeroG 7s ease-in-out infinite;
+}
+
+body.gravity-mode-active .step:nth-child(2) { animation-delay: -1.5s; }
+body.gravity-mode-active .step:nth-child(3) { animation-delay: -3s; }
+body.gravity-mode-active .step:nth-child(4) { animation-delay: -4.5s; }
+
+body.gravity-mode-active .category-card:nth-child(2) { animation-delay: -2s; }
+body.gravity-mode-active .category-card:nth-child(3) { animation-delay: -4s; }
+body.gravity-mode-active .category-card:nth-child(4) { animation-delay: -6s; }
+
+/* ========================================================
+   17. RESPONSIVE DESIGN
+   ======================================================== */
+@media (max-width: 960px) {
+  nav { padding: 14px 24px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .card.large { grid-column: span 1; }
+  footer { grid-template-columns: 1fr; padding: 50px 24px 0; gap: 36px; }
+  .footer-bottom { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .section { padding: 80px 20px; }
+  .hero { padding: 110px 20px 70px; }
+  .crisis-banner { flex-direction: column; text-align: center; padding: 28px 24px; }
+  .crisis-hotline { margin-left: 0; width: 100%; text-align: center; }
+  .telegram-section { padding: 44px 24px; }
+  .pricing-card { padding: 40px 24px; }
+}

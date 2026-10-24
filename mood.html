@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liber Animus — Mood Tracker</title>
+<meta name="description" content="Lacak dan kenali pola emosimu setiap hari dengan aman dan anonim.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<style>
+body {
+  overflow-y: auto !important;
+  min-height: 100vh;
+}
+.mood-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.mood-tip-card {
+  margin-top: 36px;
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(155, 114, 207, 0.08));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 30px 34px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  backdrop-filter: blur(14px);
+}
+.mood-tip-icon {
+  font-size: 38px;
+  flex-shrink: 0;
+}
+.mood-tip-text h4 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.mood-tip-text p {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.75;
+}
+@media (max-width: 768px) {
+  .mood-tip-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<canvas id="gravityCanvas" class="gravity-canvas"></canvas>
+<div class="glow-orb glow-orb-1"></div>
+<div class="glow-orb glow-orb-2"></div>
+<div class="glow-orb glow-orb-3"></div>
+
+<div class="mood-page-wrapper">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <a href="index.html" class="topbar-logo">Liber <span>Animus</span></a>
+    <div class="topbar-sep"></div>
+    <span class="anon-pill" id="anonCode">✦ Mood Space</span>
+    <div class="topbar-right">
+      <a href="app.html" class="back-link">💬 Mulai Chat</a>
+      <a href="index.html" class="back-link">← Beranda</a>
+    </div>
+  </header>
+
+  <!-- MAIN MOOD CONTAINER -->
+  <main class="mood-container">
+    <div class="mood-page-header">
+      <div class="hero-badge" style="margin-bottom: 16px;">✦ Refleksi & Pola Emosi</div>
+      <h1 class="mood-page-title">Mood <em>Tracker</em></h1>
+      <p class="mood-page-sub">Kenali ritme perasaanmu tanpa menghakimi diri sendiri. Rayakan setiap langkah kecil pemulihanmu.</p>
+    </div>
+
+    <div class="mood-grid">
+      <!-- PICKER -->
+      <div id="moodPickerContainer"></div>
+
+      <!-- 7-DAY CHART & STATS -->
+      <div id="moodChart"></div>
+    </div>
+
+    <!-- INSIGHT TIP -->
+    <div class="mood-tip-card">
+      <span class="mood-tip-icon">🌿</span>
+      <div class="mood-tip-text">
+        <h4>Semua Perasaanmu Sah & Valid</h4>
+        <p>Tidak ada emosi yang "buruk" atau "salah". Sedih, lelah, dan marah adalah sinyal alami bahwa kamu manusia. Luangkan waktu sejenak untuk bernapas, dan ingat kamu tidak sendirian.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<!-- SCRIPTS -->
+<script src="mood.js"></script>
+<script src="gravity.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Ambil anon code jika ada
+  const anonCode = sessionStorage.getItem('la_anon');
+  if (anonCode) {
+    const el = document.getElementById('anonCode');
+    if (el) el.textContent = anonCode;
+  }
+
+  // Render picker & chart
+  if (window.MoodTracker) {
+    MoodTracker.renderPicker('moodPickerContainer');
+    MoodTracker.renderChart('moodChart');
+  }
+});
+</script>
+</body>
+</html>
